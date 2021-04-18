@@ -1,0 +1,69 @@
+<FSM>
+    <state id="1">
+        <name> testState1 </name>
+        <action type="set">
+            <target> 5 </target>
+            <source type="constant">
+                <value> True </value>
+            </source>
+        </action>
+    </state>
+
+    <state id="2">
+        <name> testState2 </name>
+        <action type="set">
+            <target> 5 </target>
+            <source type="constant">
+                <value> True </value>
+            </source>
+        </action>
+    </state>
+
+    <transition id="3">
+        <from> 2 </from>
+        <to> 1 </to>
+        <action type="set">
+            <target> 6 </target>
+            <source type="constant">
+                <value> 100 </value>
+            </source>
+        </action>
+    </transition>
+
+    <transition id="4">
+        <from> 1 </from>
+        <to> 2 </to>
+        <action type="set">
+            <target> 6 </target>
+            <source type="data">
+                <id> 4 </id>
+            </source>
+        </action>
+    </transition>
+
+    <data id="4">
+        <name> sampleInput1 </name>
+        <isInput> True </isInput>
+        <type> double </type>
+    </data>
+
+    <data id="5">
+        <name> sampleOutput1 </name>
+        <type> boolean </type>
+    </data>
+
+    <data id="6">
+        <name> sampleOutput2 </name>
+        <isOutput> True </isOutput>
+        <type> double </type>
+    </data>
+
+    <config>
+        <defaultStateID> 1 </defaultStateID>
+        <outputFPath> ./src/TestFSM.java </outputFPath>
+        <className> TestFSM </className>
+        <description> Test configuration for auto-generated state machines </description>
+        <packageName> frc.robot.lib </packageName>
+    </config>
+
+</FSM>
