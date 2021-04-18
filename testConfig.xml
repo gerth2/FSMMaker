@@ -19,20 +19,59 @@
         </action>
     </state>
 
-    <transition id="3">
+    <state id="3">
+        <name> allDone </name>
+        <action type="set">
+            <target> 5 </target>
+            <source type="constant">
+                <value> True </value>
+            </source>
+        </action>
+        <action type="set">
+            <target> 6 </target>
+            <source type="constant">
+                <value> -321.135 </value>
+            </source>
+        </action>
+    </state>
+
+
+    <transition id="1">
+        <from> 2 </from>
+        <to> 3 </to>
+        <priority> 2 </priority>
+    </transition>
+
+    <transition id="2">
         <from> 2 </from>
         <to> 1 </to>
+        <priority> 1 </priority>
         <action type="set">
             <target> 6 </target>
             <source type="constant">
                 <value> 100 </value>
             </source>
         </action>
+        <condition>
+            <AData> 5 </AData>
+            <operator> EQ </operator>
+            <BData type="constant">
+                <value> True </value>
+            </BData>
+        </condition>
     </transition>
 
-    <transition id="4">
+
+    <transition id="3">
         <from> 1 </from>
         <to> 2 </to>
+        <condition>
+            <AData> 4 </AData>
+            <operator> GT </operator>
+            <BData type="constant">
+                <value> 20 </value>
+            </BData>
+        </condition>
         <action type="set">
             <target> 6 </target>
             <source type="data">
@@ -41,6 +80,7 @@
         </action>
     </transition>
 
+
     <data id="4">
         <name> sampleInput1 </name>
         <isInput> True </isInput>
@@ -48,12 +88,12 @@
     </data>
 
     <data id="5">
-        <name> sampleOutput1 </name>
+        <name> internalDataTest </name>
         <type> boolean </type>
     </data>
 
     <data id="6">
-        <name> sampleOutput2 </name>
+        <name> sampleOutput1 </name>
         <isOutput> True </isOutput>
         <type> double </type>
     </data>

@@ -11,7 +11,10 @@ class TransitionCodegen:
         self.parent = parent
 
     def getCondition(self):
-        return "true" # TODO
+        if(self.parent.condition is not None):
+            return self.parent.condition.cg.getCode()
+        else:
+            return "true"
 
     def getCurStateUpdate(self):
         gc = FSMConfig()

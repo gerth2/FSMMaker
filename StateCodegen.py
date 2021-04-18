@@ -28,14 +28,17 @@ class StateCodegen:
         gc = FSMConfig()
         retStr = ""
         retStr += indent(3) + "case " + self.getEnumMember() + ":\n"
-        for trans in gc.allTransitions.values():
-            if(trans.fromStateID == self.parent.id):
-                retStr += indent(4) + "if(" + trans.cg.getCondition() + "){\n"
-                for action in trans.actions:
-                    retStr += indent(5) + action.cg.getCode()
-                retStr += indent(5) + trans.cg.getCurStateUpdate() + "\n"
-                retStr += indent(5) + "break;\n"
-                retStr += indent(4) + "}\n\n"
+
+        exitingTransitions = [x for x in gc.allTransitions.values() if x.fromStateID == self.parent.id]
+        exitingTransitions.sort(key=lambda x: x.priority)
+        for trans in exitingTransitions:
+            retStr += indent(4) + "if(" + trans.cg.getCondition() + "){\n"
+            retStr += indent(5) + "// Take transition " + str(trans.id) + "\n"
+            for action in trans.actions:
+                retStr += indent(5) + action.cg.getCode()
+            retStr += indent(5) + trans.cg.getCurStateUpdate() + "\n"
+            retStr += indent(5) + "break;\n"
+            retStr += indent(4) + "}\n\n"
 
         retStr += indent(3) + "break;\n\n"
         return retStr

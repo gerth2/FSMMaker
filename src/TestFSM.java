@@ -14,14 +14,15 @@ class TestFSM {
     public static enum STATE {
         TESTSTATE1,
         TESTSTATE2,
+        ALLDONE,
 
     }
 
     private STATE curState = STATE.TESTSTATE1;
 
     private double sampleInput1;
-    private boolean sampleOutput1;
-    private double sampleOutput2;
+    private boolean internalDataTest;
+    private double sampleOutput1;
 
 
     
@@ -36,8 +37,8 @@ class TestFSM {
     ///////////////////////////////////////////////////
     // Output Value Getters
     ///////////////////////////////////////////////////
-    public double getsampleOutput2() {
-        return sampleOutput2;
+    public double getsampleOutput1() {
+        return sampleOutput1;
     }
 
 
@@ -55,8 +56,9 @@ class TestFSM {
         // Perform state-transition actions 
         switch(curState) {
             case TESTSTATE1:
-                if(true){
-                    sampleOutput2 = sampleInput1;
+                if(sampleInput1>20.0){
+                    // Take transition 3
+                    sampleOutput1 = sampleInput1;
                     curState = STATE.TESTSTATE2;
                     break;
                 }
@@ -64,12 +66,22 @@ class TestFSM {
             break;
 
             case TESTSTATE2:
-                if(true){
-                    sampleOutput2 = 100.0;
+                if(internalDataTest==true){
+                    // Take transition 2
+                    sampleOutput1 = 100.0;
                     curState = STATE.TESTSTATE1;
                     break;
                 }
 
+                if(true){
+                    // Take transition 1
+                    curState = STATE.ALLDONE;
+                    break;
+                }
+
+            break;
+
+            case ALLDONE:
             break;
 
 
@@ -81,10 +93,14 @@ class TestFSM {
         // assign outputs based on curState
         switch(curState) {
             case TESTSTATE1:
-                sampleOutput1 = false;
+                internalDataTest = false;
                 break;
             case TESTSTATE2:
-                sampleOutput1 = true;
+                internalDataTest = true;
+                break;
+            case ALLDONE:
+                internalDataTest = true;
+                sampleOutput1 = -321.135;
                 break;
 
             default:

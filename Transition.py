@@ -1,5 +1,6 @@
 
 
+from Comparison import Comparison
 from Action import Action
 from TransitionCodegen import TransitionCodegen
 from TransitionGraphic import TransitionGraphic
@@ -13,6 +14,8 @@ class Transition:
         self.id = id
         self.fromStateID = None
         self.toStateID = None
+        self.condition = None
+        self.priority = 0
         self.cg = TransitionCodegen(self)
         self.graphic = TransitionGraphic(self)
         self.actions = []
@@ -28,7 +31,11 @@ class Transition:
                 newAction = Action()
                 newAction.parseCfg(child)
                 self.actions.append(newAction)
-
+            elif(child.tag == "condition"):
+                self.condition = Comparison()
+                self.condition.parseCfg(child)
+            elif(child.tag == "priority"):
+                self.priority = int(child.text)
 
     def dumpCfg(self):
         return ET.Element() #TODO: generate XML representation of current object
