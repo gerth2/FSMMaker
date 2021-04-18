@@ -6,12 +6,14 @@ class CodegenDatatype(Enum):
      BOOLEAN = 3
 
 def parseAsType(cgDT, str):
+    
     if(cgDT == CodegenDatatype.INT):
         return int(str)
     elif(cgDT == CodegenDatatype.DOUBLE):
         return float(str)
     elif(cgDT == CodegenDatatype.BOOLEAN):
-        return bool(str)
+        str = str.strip().lower()
+        return (str=="true")
 
 def toJavaDatatypeStr(cgDT):
     if(cgDT == CodegenDatatype.INT):

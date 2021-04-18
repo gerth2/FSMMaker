@@ -18,7 +18,6 @@ class FSMConfig(object):
 
     def __new__(self):
         if self._instance is None:
-            print('Creating the object')
             self._instance = super(FSMConfig, self).__new__(self)
             # Put any initialization here.
         return self._instance
