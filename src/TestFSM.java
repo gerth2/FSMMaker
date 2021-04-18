@@ -56,7 +56,7 @@ class TestFSM {
         // Perform state-transition actions 
         switch(curState) {
             case TESTSTATE1:
-                if(sampleInput1>20.0){
+                if(sampleInput1 > 20.0){
                     // Take transition 3
                     sampleOutput1 = sampleInput1;
                     curState = STATE.TESTSTATE2;
@@ -66,7 +66,7 @@ class TestFSM {
             break;
 
             case TESTSTATE2:
-                if(internalDataTest==true){
+                if(internalDataTest == true){
                     // Take transition 2
                     sampleOutput1 = 100.0;
                     curState = STATE.TESTSTATE1;

@@ -10,17 +10,17 @@ class CodegenOperator(Enum):
 
 def toJavaDatatypeStr(cgOP):
     if(cgOP == CodegenOperator.GT):
-        return ">"
+        return " > "
     elif(cgOP == CodegenOperator.LT):
-        return "<"
+        return " < "
     elif(cgOP == CodegenOperator.EQ):
-        return "=="
+        return " == "
     elif(cgOP == CodegenOperator.NEQ):
-        return "!="
+        return " != "
     elif(cgOP == CodegenOperator.GTEQ):
-        return ">="
+        return " >= "
     elif(cgOP == CodegenOperator.LTEQ):
-        return "<="
+        return " <= "
 
 def fromXMLCfgStr(cfgStr):
     cfgStr = cfgStr.lower().strip()
