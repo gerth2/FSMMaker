@@ -1,5 +1,7 @@
 import os
 from FSMConfig import FSMConfig
+from tkinter import filedialog
+from tkinter import messagebox
 from tkinter import *
 import xml.etree.ElementTree as ET
 from string import Template
@@ -7,7 +9,7 @@ from string import Template
 from Data import Data
 from Transition import Transition
 from State import State
-
+import webbrowser
 
 
 
@@ -94,32 +96,84 @@ def codegen():
         
         outFile.write(outFileContents)
 
+def reset():
+   gc = FSMConfig()
+   gc.resetToDefault()
 
+def guiOpenHandler():
+    filename =  filedialog.askopenfilename(initialdir = ".",title = "Select Config File to Open",filetypes = (("Config Files","*.xml"),("all files","*.*")))
+    reset()
+    loadFile(filename)
+
+def guiSaveHandler():
+    gc = FSMConfig()
+    if(gc.configFPath is not None):
+        reset()
+        saveFile(gc.configFPath)
+    else:
+        guiSaveAsHandler()
+
+def guiSaveAsHandler():
+    filename =  filedialog.asksaveasfilename(initialdir = ".",title = "Select Save File location",filetypes = (("Config Files","*.xml")))
+    reset()
+    saveFile(filename)
+
+def showAbout():
+    messagebox.showinfo("About", "Awesome About Info goes Here Eventually")
+
+def openOnlineHelp():
+    webbrowser.open("https://github.com/gerth2/FSMMaker")
+
+def donothing():
+    pass # Placeholder till we actually implement the thing
+
+#############################################################3
+## MAIN CODE EXECUTION STARTS HERE
+#############################################################3
 
 if (__name__ == "__main__"):
     loadFile("testConfig.xml")
     codegen()
     saveFile("testResavedConfig.xml")
 
-#    dflt_canvas_width = 600
-#    dflt_canvas_height = 800
-#
-#    colours = ("#476042", "yellow")
-#    box=[]
-#
-#    for ratio in ( 0.2, 0.35 ):
-#        box.append( (dflt_canvas_width * ratio,
-#                        dflt_canvas_height * ratio,
-#                        dflt_canvas_width * (1 - ratio),
-#                        dflt_canvas_height * (1 - ratio) ) )
-#
-#    master = Tk()
-#
-#    mainCanvas = Canvas(master, 
-#            width=dflt_canvas_width, 
-#            height=dflt_canvas_height)
-#    mainCanvas.pack()
-#
+    dflt_canvas_width = 600
+    dflt_canvas_height = 800
+
+    root = Tk()
+    root.title("FSM Maker")
+
+
+    mainCanvas = Canvas(root, 
+            width=dflt_canvas_width, 
+            height=dflt_canvas_height,
+            bg='black')
+    mainCanvas.pack()
+
+    menubar = Menu(root)
+    filemenu = Menu(menubar, tearoff=0)
+    filemenu.add_command(label="New", command=reset)
+    filemenu.add_command(label="Open", command=guiOpenHandler)
+    filemenu.add_command(label="Save", command=guiSaveHandler)
+    filemenu.add_command(label="Save As", command=guiSaveAsHandler)
+    filemenu.add_separator()
+    filemenu.add_command(label="Exit", command=root.quit)
+    menubar.add_cascade(label="File", menu=filemenu)
+
+    configmenu = Menu(menubar, tearoff=0)
+    configmenu.add_command(label="Setup IO", command=donothing)
+    configmenu.add_command(label="Edit FSM Properties", command=donothing)
+    menubar.add_cascade(label="Config", menu=configmenu)
+
+    buildmenu = Menu(menubar, tearoff=0)
+    buildmenu.add_command(label="Codegen Java", command=codegen)
+    menubar.add_cascade(label="Build", menu=buildmenu)
+
+    helpmenu = Menu(menubar, tearoff=0)
+    helpmenu.add_command(label="Help Online", command=openOnlineHelp)
+    helpmenu.add_command(label="About", command=showAbout)
+    menubar.add_cascade(label="Help", menu=helpmenu)
+
+
 #    for i in range(2):
 #        mainCanvas.create_rectangle(box[i][0], box[i][1],box[i][2],box[i][3], fill=colours[i])
 #
@@ -142,4 +196,6 @@ if (__name__ == "__main__"):
 #    mainCanvas.create_text(dflt_canvas_width / 2,
 #                dflt_canvas_height / 2,
 #                text="Python")
-#    mainloop()
+
+    root.config(menu=menubar)
+    mainloop()
