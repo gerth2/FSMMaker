@@ -1,9 +1,9 @@
 package frc.robot.lib;
 
 /**
- * THIS CLASS IS AUTO_GENERATED - DO NOT EDIT DIRECTLY.
+ * THIS CLASS IS AUTO-GENERATED - DO NOT EDIT DIRECTLY.
  * 
-Test configuration for auto-generated state machines
+ * Test configuration for auto-generated state machines
  */
 
 class TestFSM {

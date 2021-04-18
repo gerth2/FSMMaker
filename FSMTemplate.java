@@ -1,9 +1,9 @@
 package ${packagename};
 
 /**
- * THIS CLASS IS AUTO_GENERATED - DO NOT EDIT DIRECTLY.
+ * THIS CLASS IS AUTO-GENERATED - DO NOT EDIT DIRECTLY.
  * 
-${description}
+ * ${description}
  */
 
 class ${classname} {

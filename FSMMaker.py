@@ -79,15 +79,15 @@ def codegen():
         with open('FSMTemplate.java', "r") as tfile:
             t = Template(tfile.read())
             substDict = {
-                "packagename" : gc.packageName,
-                "description" : gc.description,
-                "classname" : gc.className,
-                "statelist" : "".join([state.cg.getEnumDeclaration() for state in gc.allStates.values()]),
-                "initialstate" : gc.allStates[gc.defaultStateID].cg.getFullIdentifier(),
+                "packagename"      : gc.packageName,
+                "description"      : gc.description.replace("\n", "\n * "),
+                "classname"        : gc.className,
+                "statelist"        : "".join([state.cg.getEnumDeclaration() for state in gc.allStates.values()]),
+                "initialstate"     : gc.allStates[gc.defaultStateID].cg.getFullIdentifier(),
                 "datadeclarations" : "".join([data.cg.getDeclaration() for data in gc.allData.values()]),
-                "setters" : "".join([data.cg.getSetter() for data in gc.allData.values() if data.isInput]),
-                "getters" : "".join([data.cg.getGetter() for data in gc.allData.values() if data.isOutput]),
-                "nextstatecases" : "".join([state.cg.getNextStateCase() for state in gc.allStates.values()]),
+                "setters"          : "".join([data.cg.getSetter() for data in gc.allData.values() if data.isInput]),
+                "getters"          : "".join([data.cg.getGetter() for data in gc.allData.values() if data.isOutput]),
+                "nextstatecases"   : "".join([state.cg.getNextStateCase() for state in gc.allStates.values()]),
                 "stateoutputcases" : "".join([state.cg.getStateOutputAction() for state in gc.allStates.values()])
             }
             outFileContents = t.substitute(substDict)
