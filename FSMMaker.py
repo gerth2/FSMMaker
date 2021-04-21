@@ -127,6 +127,12 @@ def openOnlineHelp():
 def donothing():
     pass # Placeholder till we actually implement the thing
 
+def guiDrawLoop():
+
+    root.after(20, guiDrawLoop)
+
+root = Tk()
+
 #############################################################3
 ## MAIN CODE EXECUTION STARTS HERE
 #############################################################3
@@ -139,7 +145,7 @@ if (__name__ == "__main__"):
     dflt_canvas_width = 600
     dflt_canvas_height = 800
 
-    root = Tk()
+
     root.title("FSM Maker")
 
 
@@ -198,4 +204,6 @@ if (__name__ == "__main__"):
 #                text="Python")
 
     root.config(menu=menubar)
-    mainloop()
+
+    guiDrawLoop() # Kick off first periodic background draw loop
+    mainloop() # Allow normal event loop processing
