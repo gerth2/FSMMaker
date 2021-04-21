@@ -4,10 +4,8 @@ class TransitionGraphic:
 
     def __init__(self, parent):
         self.parent = parent
-        self.startPos = (0,0)
-        self.endPos = (10,10)
-        self.startAngle = 0
-        self.endAngle = 0
+        self.startAttachAngle = 0 # Angle on the starting node where this line is supposed to attach
+        self.endAttachAngle = 0 # Angle on the ending node where this line is supposed to attach
 
 
     def initialDraw(self, canvas):
