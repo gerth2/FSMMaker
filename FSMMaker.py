@@ -6,6 +6,8 @@ from tkinter import *
 import xml.etree.ElementTree as ET
 from string import Template
 
+from GraphicsMouseManager import GraphicsMouseManager
+
 from Data import Data
 from Transition import Transition
 from State import State
@@ -104,6 +106,7 @@ def guiOpenHandler():
     filename =  filedialog.askopenfilename(initialdir = ".",title = "Select Config File to Open",filetypes = (("Config Files","*.xml"),("all files","*.*")))
     reset()
     loadFile(filename)
+    guiInitialDraw()
 
 def guiSaveHandler():
     gc = FSMConfig()
@@ -127,20 +130,30 @@ def openOnlineHelp():
 def donothing():
     pass # Placeholder till we actually implement the thing
 
-def guiDrawLoop():
+def guiInitialDraw():
+    if(mainCanvas is not None):
+        gc = FSMConfig()
+        mainCanvas.delete('all')
+        for state in gc.allStates.values():
+            state.graphic.initialDraw(mainCanvas)
+        for transition in gc.allTransitions.values():
+            transition.graphic.initialDraw(mainCanvas)
 
-    root.after(20, guiDrawLoop)
+def guiUpdateAll():
+    gc = FSMConfig()
+    for state in gc.allStates.values():
+        state.graphic.update()
+    for transition in gc.allTransitions.values():
+        transition.graphic.update()
 
 root = Tk()
+mainCanvas = None
 
 #############################################################3
 ## MAIN CODE EXECUTION STARTS HERE
 #############################################################3
 
 if (__name__ == "__main__"):
-    loadFile("testConfig.xml")
-    codegen()
-    saveFile("testResavedConfig.xml")
 
     dflt_canvas_width = 600
     dflt_canvas_height = 800
@@ -148,12 +161,17 @@ if (__name__ == "__main__"):
 
     root.title("FSM Maker")
 
+    gmm = GraphicsMouseManager()
 
     mainCanvas = Canvas(root, 
             width=dflt_canvas_width, 
             height=dflt_canvas_height,
             bg='black')
     mainCanvas.pack()
+
+    mainCanvas.bind("<ButtonPress>", gmm.downHandler)
+    mainCanvas.bind("<ButtonRelease>", gmm.upHandler)
+    mainCanvas.bind("<Motion>", gmm.motionHandler)
 
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
@@ -205,5 +223,11 @@ if (__name__ == "__main__"):
 
     root.config(menu=menubar)
 
-    guiDrawLoop() # Kick off first periodic background draw loop
+    loadFile("./testConfig.xml")
+
+
+    guiInitialDraw()
+
+
+
     mainloop() # Allow normal event loop processing

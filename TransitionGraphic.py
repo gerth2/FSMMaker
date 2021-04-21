@@ -10,8 +10,11 @@ class TransitionGraphic:
         self.endAngle = 0
 
 
-    def draw(canvas_in):
-        # TODO - spline from start to end respecting start/end angles
-        # TODO - name in the middle of the transition
-        # TODO - conditions in the middle of the transition
+    def initialDraw(self, canvas):
+        pass
+
+    def update(self):
+        pass
+
+    def parseCfg(self, etreeNode):
         pass

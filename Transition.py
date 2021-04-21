@@ -36,6 +36,8 @@ class Transition:
                 self.condition.parseCfg(child)
             elif(child.tag == "priority"):
                 self.priority = int(child.text)
-
+            elif(child.tag == "graphic"):
+                self.graphic.parseCfg(child)
+                
     def dumpCfg(self):
         return ET.Element() #TODO: generate XML representation of current object

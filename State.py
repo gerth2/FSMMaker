@@ -24,6 +24,8 @@ class State:
                 newAction = Action()
                 newAction.parseCfg(child)
                 self.actions.append(newAction)
+            elif(child.tag == "graphic"):
+                self.graphic.parseCfg(child)
 
     def dumpCfg(self):
         return ET.Element() #TODO: generate XML representation of current object
