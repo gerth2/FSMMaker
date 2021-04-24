@@ -1,4 +1,11 @@
 
+from enum import Enum
+
+class AttachmentSide(Enum):
+     TOP = 1
+     BOTTOM = 2
+     LEFT = 3
+     RIGHT = 3
 
 class TransitionGraphic:
 
