@@ -1,17 +1,41 @@
 import os
 from FSMConfig import FSMConfig
-from tkinter import filedialog
-from tkinter import messagebox
-from tkinter import *
+
 import xml.etree.ElementTree as ET
 from string import Template
 
-from GraphicsMouseManager import GraphicsMouseManager
+from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.modules import inspector
+from kivy.core.window import Window
+
 
 from Data import Data
 from Transition import Transition
 from State import State
 import webbrowser
+
+
+
+class FSMMaker(Widget):
+    pass
+
+
+class FSMMakerApp(App):
+
+
+    dflt_canvas_width = 600
+    dflt_canvas_height = 800
+
+    def build(self):
+        newThing = FSMMaker()
+        inspector.create_inspector(Window, newThing)
+        return newThing
+
+    def on_start(self, **kwargs):
+        guiInitialDraw()
+
+
 
 
 
@@ -127,17 +151,14 @@ def showAbout():
 def openOnlineHelp():
     webbrowser.open("https://github.com/gerth2/FSMMaker")
 
-def donothing():
-    pass # Placeholder till we actually implement the thing
-
 def guiInitialDraw():
-    if(mainCanvas is not None):
-        gc = FSMConfig()
-        mainCanvas.delete('all')
+    gc = FSMConfig()
+    root = App.get_running_app().root
+    if(root is not None):
         for state in gc.allStates.values():
-            state.graphic.initialDraw(mainCanvas)
+            state.graphic.initialDraw(root)
         for transition in gc.allTransitions.values():
-            transition.graphic.initialDraw(mainCanvas)
+            transition.graphic.initialDraw(root)
 
 def guiUpdateAll():
     gc = FSMConfig()
@@ -146,8 +167,6 @@ def guiUpdateAll():
     for transition in gc.allTransitions.values():
         transition.graphic.update()
 
-root = Tk()
-mainCanvas = None
 
 #############################################################3
 ## MAIN CODE EXECUTION STARTS HERE
@@ -155,79 +174,13 @@ mainCanvas = None
 
 if (__name__ == "__main__"):
 
-    dflt_canvas_width = 600
-    dflt_canvas_height = 800
 
 
-    root.title("FSM Maker")
+    app = FSMMakerApp()
 
-    gmm = GraphicsMouseManager()
-
-    mainCanvas = Canvas(root, 
-            width=dflt_canvas_width, 
-            height=dflt_canvas_height,
-            bg='black')
-    mainCanvas.pack()
-
-    mainCanvas.bind("<ButtonPress>", gmm.downHandler)
-    mainCanvas.bind("<ButtonRelease>", gmm.upHandler)
-    mainCanvas.bind("<Motion>", gmm.motionHandler)
-
-    menubar = Menu(root)
-    filemenu = Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=reset)
-    filemenu.add_command(label="Open", command=guiOpenHandler)
-    filemenu.add_command(label="Save", command=guiSaveHandler)
-    filemenu.add_command(label="Save As", command=guiSaveAsHandler)
-    filemenu.add_separator()
-    filemenu.add_command(label="Exit", command=root.quit)
-    menubar.add_cascade(label="File", menu=filemenu)
-
-    configmenu = Menu(menubar, tearoff=0)
-    configmenu.add_command(label="Setup IO", command=donothing)
-    configmenu.add_command(label="Edit FSM Properties", command=donothing)
-    menubar.add_cascade(label="Config", menu=configmenu)
-
-    buildmenu = Menu(menubar, tearoff=0)
-    buildmenu.add_command(label="Codegen Java", command=codegen)
-    menubar.add_cascade(label="Build", menu=buildmenu)
-
-    helpmenu = Menu(menubar, tearoff=0)
-    helpmenu.add_command(label="Help Online", command=openOnlineHelp)
-    helpmenu.add_command(label="About", command=showAbout)
-    menubar.add_cascade(label="Help", menu=helpmenu)
-
-
-#    for i in range(2):
-#        mainCanvas.create_rectangle(box[i][0], box[i][1],box[i][2],box[i][3], fill=colours[i])
-#
-#    mainCanvas.create_line(0, 0,                 # origin of canvas
-#                box[0][0], box[0][1], # coordinates of left upper corner of the box[0]
-#                fill=colours[0], 
-#                width=3)
-#    mainCanvas.create_line(0, dflt_canvas_height,     # lower left corner of canvas
-#                box[0][0], box[0][3], # lower left corner of box[0]
-#                fill=colours[0], 
-#                width=3)
-#    mainCanvas.create_line(box[0][2],box[0][1],  # right upper corner of box[0] 
-#                dflt_canvas_width, 0,      # right upper corner of canvas
-#                fill=colours[0], 
-#                width=3)
-#    mainCanvas.create_line(box[0][2], box[0][3], # lower right corner pf box[0]
-#                dflt_canvas_width, dflt_canvas_height, # lower right corner of canvas
-#                fill=colours[0], width=3)
-#
-#    mainCanvas.create_text(dflt_canvas_width / 2,
-#                dflt_canvas_height / 2,
-#                text="Python")
-
-    root.config(menu=menubar)
 
     loadFile("./testConfig.xml")
 
 
-    guiInitialDraw()
+    FSMMakerApp().run()
 
-
-
-    mainloop() # Allow normal event loop processing

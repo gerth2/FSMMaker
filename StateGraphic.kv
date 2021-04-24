@@ -1,0 +1,19 @@
+#:kivy 1.0.9
+
+
+<StateGraphic>:
+    size: 50,50
+    canvas:
+
+        Color:
+            rgba: 0, 0, 1, 1    # Blue
+  
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+        Label:
+            id:"StateName"
+            text: "test"
+            top: root.top - 10
+            
